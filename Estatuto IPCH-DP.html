@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Estatuto &middot; Iglesia Presbiteriana Divino Salvador</title>
+<style>
+:root{
+  --papel:#faf8f4; --papel2:#ffffff; --tinta:#1c1a17; --tinta2:#4a463f; --gris:#8b857a;
+  --linea:#e2ddd2; --linea2:#cfc8b9; --azul:#1f4e79; --azul2:#2b6ca3; --azulclaro:#eef4fa;
+  --oro:#a8873f; --rojo:#8c3a2e;
+  --navy:#12212f; --navy2:#1c3247;
+  --s:1;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--papel); color:var(--tinta);
+  font-family:Georgia,'Times New Roman',serif;
+  font-size:calc(17px * var(--s)); line-height:1.72;
+  -webkit-font-smoothing:antialiased;
+}
+button,input{font-family:inherit;color:inherit}
+
+/* ---------- estructura ---------- */
+.barra{
+  position:fixed;top:0;left:0;right:0;height:54px;z-index:60;
+  background:var(--navy); color:#dbe4ee; display:flex; align-items:center; gap:10px;
+  padding:0 14px; box-shadow:0 1px 0 rgba(0,0,0,.25);
+}
+.barra .marca{font-size:15px; font-weight:700; letter-spacing:.2px; white-space:nowrap}
+.barra .sep{color:#5c7590; font-size:13px}
+.barra .crece{flex:1}
+.barra button{
+  background:transparent;border:1px solid #33506b;color:#cfe0ee;border-radius:5px;
+  padding:6px 11px;cursor:pointer;font-size:13px;line-height:1.2;
+}
+.barra button:hover{background:#1e3a54}
+.barra button[aria-pressed="true"]{background:#2b6ca3;border-color:#4d8cc0;color:#fff}
+.buscador{display:flex;align-items:center;gap:6px}
+.buscador input{
+  background:#0d1b27;border:1px solid #33506b;border-radius:5px;color:#e6eef6;
+  padding:7px 10px;width:190px;font-size:14px;
+}
+.buscador input::placeholder{color:#6d8399}
+
+.lateral{
+  position:fixed;top:54px;bottom:0;left:0;width:308px;z-index:50;
+  background:var(--navy); color:#c6d3e0; overflow-y:auto;
+  border-right:1px solid #0a1620; padding-bottom:40px;
+}
+.lateral h2{
+  margin:0;padding:16px 16px 10px;font-size:11.5px;letter-spacing:1.5px;text-transform:uppercase;
+  color:#7f97ad;font-family:'Segoe UI',Arial,sans-serif;font-weight:700;
+}
+.lat-item{
+  display:block;width:100%;text-align:left;background:transparent;border:0;
+  border-left:3px solid transparent;padding:9px 16px;cursor:pointer;color:#c6d3e0;
+  font-size:14.5px;line-height:1.4;
+}
+.lat-item:hover{background:#1b3145}
+.lat-item.on{background:#203c56;border-left-color:#5aa0dd;color:#fff;font-weight:600}
+.lat-libro{font-size:13px;color:#8fa8bd;padding:12px 16px 5px;font-family:'Segoe UI',Arial,sans-serif;letter-spacing:.4px}
+.lat-art{
+  display:block;width:100%;text-align:left;background:transparent;border:0;
+  border-left:3px solid transparent;padding:6px 16px 6px 30px;cursor:pointer;color:#aebecd;
+  font-size:13.5px;line-height:1.4;
+}
+.lat-art:hover{background:#182c3f}
+.lat-art.on{background:#203c56;border-left-color:#5aa0dd;color:#fff}
+.lat-badge{
+  display:inline-block;margin-left:6px;font-size:10px;letter-spacing:.5px;
+  background:#3a2f18;color:#d9b877;border-radius:3px;padding:1px 5px;font-family:'Segoe UI',Arial,sans-serif;
+}
+
+.principal{margin-left:308px;padding-top:54px;min-height:100vh}
+
+/* ---------- portada ---------- */
+.portada{
+  min-height:calc(100vh - 54px);display:flex;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center;padding:56px 32px;
+  background:
+    radial-gradient(circle at 50% 18%, #ffffff 0%, #f6f2ea 55%, #efe9dd 100%);
+}
+.portada .escudo{font-size:12px;letter-spacing:3.4px;color:var(--oro);text-transform:uppercase;margin-bottom:20px}
+.portada .regla{width:78px;height:2px;background:var(--oro);margin:22px auto;opacity:.7}
+.portada h1{font-size:clamp(40px,6.4vw,74px);margin:0;letter-spacing:1px;font-weight:400;line-height:1.05}
+.portada h2{
+  font-size:clamp(19px,2.4vw,29px);margin:14px 0 0;font-weight:400;color:var(--azul);
+  font-family:'Segoe UI',Arial,sans-serif;letter-spacing:.3px;
+}
+.portada .den{font-size:15px;color:var(--tinta2);margin-top:26px;line-height:1.7}
+.portada .den b{display:block;font-size:17px}
+.portada .aviso{
+  margin:34px auto 0;max-width:660px;background:#fff;border:1px solid var(--linea2);
+  border-left:4px solid var(--oro);border-radius:4px;padding:15px 19px;
+  font-family:'Segoe UI',Arial,sans-serif;font-size:14px;color:var(--tinta2);text-align:left;line-height:1.62;
+}
+.portada .empezar{
+  margin-top:32px;background:var(--azul);color:#fff;border:0;border-radius:5px;
+  padding:13px 30px;font-size:16px;cursor:pointer;font-family:'Segoe UI',Arial,sans-serif;
+}
+.portada .empezar:hover{background:var(--azul2)}
+
+/* ---------- lectura ---------- */
+.envoltura{max-width:820px;margin:0 auto;padding:38px 30px 120px}
+.migas{font-family:'Segoe UI',Arial,sans-serif;font-size:12.5px;color:var(--gris);letter-spacing:.5px;margin-bottom:8px}
+.envoltura h1{font-size:31px;margin:0 0 4px;font-weight:400;line-height:1.2}
+.envoltura .rango{font-family:'Segoe UI',Arial,sans-serif;font-size:13px;color:var(--azul2);margin-bottom:26px;letter-spacing:.4px}
+.regla2{height:1px;background:var(--linea2);margin:0 0 30px}
+.bloque{margin:0 0 40px}
+.bloque .num{
+  font-family:'Segoe UI',Arial,sans-serif;font-size:12.5px;font-weight:700;letter-spacing:1.3px;
+  text-transform:uppercase;color:var(--azul);display:flex;align-items:baseline;gap:10px;margin-bottom:7px;
+}
+.bloque .num::after{content:'';flex:1;height:1px;background:var(--linea)}
+.bloque .cuerpo{font-size:1.03em;line-height:1.82;text-align:justify;hyphens:auto}
+.bloque.falta .cuerpo{color:var(--gris);font-style:italic}
+.marca{background:#fdf3d6;border-bottom:2px solid #d9b877;padding:0 2px;border-radius:2px}
+.aviso-texto{
+  font-family:'Segoe UI',Arial,sans-serif;font-size:14px;background:#fdf6e6;
+  border:1px solid #e4d3a8;border-left:4px solid var(--oro);border-radius:4px;
+  padding:13px 16px;margin:0 0 34px;color:#6b5518;line-height:1.6;
+}
+.nav-art{
+  display:flex;gap:12px;margin-top:44px;padding-top:24px;border-top:1px solid var(--linea);
+}
+.nav-art button{
+  flex:1;background:var(--papel2);border:1px solid var(--linea2);border-radius:5px;
+  padding:13px 16px;cursor:pointer;text-align:left;font-size:14.5px;line-height:1.35;
+}
+.nav-art button:hover{border-color:var(--azul2);background:var(--azulclaro)}
+.nav-art button:disabled{opacity:.4;cursor:default}
+.nav-art .flecha{display:block;font-family:'Segoe UI',Arial,sans-serif;font-size:11px;letter-spacing:1px;color:var(--gris);text-transform:uppercase;margin-bottom:4px}
+
+.notas{margin-top:34px}
+.notas label{
+  display:block;font-family:'Segoe UI',Arial,sans-serif;font-size:12px;letter-spacing:1.2px;
+  text-transform:uppercase;color:var(--gris);margin-bottom:7px;
+}
+.notas textarea{
+  width:100%;min-height:110px;background:var(--papel2);border:1px solid var(--linea2);
+  border-radius:5px;padding:12px 14px;font-size:15px;line-height:1.6;resize:vertical;
+}
+.notas .estado{font-family:'Segoe UI',Arial,sans-serif;font-size:12px;color:var(--gris);margin-top:6px;display:block}
+
+/* ---------- indice ---------- */
+.indice{max-width:820px;margin:0 auto;padding:38px 30px 120px}
+.indice h1{font-size:31px;margin:0 0 6px;font-weight:400}
+.indice .intro{color:var(--gris);font-family:'Segoe UI',Arial,sans-serif;font-size:14px;margin-bottom:28px}
+.indice .lib{margin-bottom:30px}
+.indice .lib h2{font-size:19px;margin:0 0 3px;font-weight:400;color:var(--azul)}
+.indice .lib .sub{font-family:'Segoe UI',Arial,sans-serif;font-size:12.5px;color:var(--gris);margin-bottom:11px}
+.indice .fila{
+  display:flex;gap:12px;padding:6px 10px;border-radius:4px;cursor:pointer;
+  border-bottom:1px solid var(--linea);
+}
+.indice .fila:hover{background:var(--azulclaro)}
+.indice .fila .et{
+  flex:0 0 132px;font-family:'Segoe UI',Arial,sans-serif;font-size:13px;font-weight:600;
+  color:var(--azul2);letter-spacing:.3px;
+}
+.indice .fila .tx{font-size:14.5px;color:var(--tinta2);line-height:1.5}
+
+/* ---------- resultados ---------- */
+.resultados{max-width:820px;margin:0 auto;padding:38px 30px 120px}
+.resultados h1{font-size:26px;margin:0 0 6px;font-weight:400}
+.resultados .conteo{font-family:'Segoe UI',Arial,sans-serif;font-size:14px;color:var(--gris);margin-bottom:22px}
+.res{
+  padding:14px 16px;border:1px solid var(--linea);border-radius:5px;background:var(--papel2);
+  margin-bottom:11px;cursor:pointer;
+}
+.res:hover{border-color:var(--azul2)}
+.res .et{font-family:'Segoe UI',Arial,sans-serif;font-size:11.5px;letter-spacing:1.1px;text-transform:uppercase;color:var(--azul);font-weight:700;margin-bottom:5px}
+.res .tx{font-size:14.5px;line-height:1.6;color:var(--tinta2)}
+.res .tx .marca{background:#fdf3d6;border-bottom:2px solid #d9b877}
+
+/* ---------- moviles ---------- */
+.abrir{display:none}
+@media(max-width:900px){
+  .lateral{transform:translateX(-100%);transition:transform .22s ease}
+  .lateral.abierta{transform:translateX(0)}
+  .principal{margin-left:0}
+  .abrir{display:inline-block}
+  .buscador input{width:120px}
+  .barra .marca{display:none}
+}
+@media print{
+  .barra,.lateral,.nav-art,.notas,.portada .empezar{display:none}
+  .principal{margin:0;padding:0}
+  .bloque{page-break-inside:avoid}
+  body{font-size:11pt}
+}
+</style>
+</head>
+<body>
+
+<div class="barra">
+  <button class="abrir" id="bMenu" type="button" aria-label="Abrir menu">&#9776;</button>
+  <span class="marca">Estatuto</span>
+  <span class="sep">&middot;</span>
+  <span style="font-size:13px;color:#9fb3c6" id="bLibro">Portada</span>
+  <span class="crece"></span>
+  <span class="buscador">
+    <input id="q" type="search" placeholder="Buscar articulo..." aria-label="Buscar">
+  </span>
+  <button id="bIndice" type="button">&Iacute;ndice</button>
+  <button id="bMenos" type="button" aria-label="Reducir texto">A&minus;</button>
+  <button id="bMas" type="button" aria-label="Aumentar texto">A+</button>
+</div>
+
+<nav class="lateral" id="lat">
+  <h2>Men&uacute;</h2>
+  <button class="lat-item" data-ir="portada">Portada</button>
+  <button class="lat-item" data-ir="indice">&Iacute;ndice general</button>
+  <div id="menu"></div>
+</nav>
+
+<main class="principal" id="princ"></main>
+
+<script>
+var DATOS = {
+    "meta":  {
+                 "iglesia":  "Iglesia Presbiteriana Divino Salvador",
+                 "denominacion":  "Iglesia Presbiteriana de Chile",
+                 "titulo":  "Estatuto",
+                 "subtitulo":  "Iglesia Presbiteriana de Chile",
+                 "edicion":  "Edicion de trabajo",
+                 "aviso":  "Documento en construccion. El texto completo se incorporara cuando llegue el PDF digital oficial."
+             },
+    "libros":  [
+                   {
+                       "id":  "libro-1",
+                       "orden":  1,
+                       "num":  "Cuarto",
+                       "titulo":  "De los Miembros",
+                       "rango":  "",
+                       "estado":  "parcial",
+                       "articulos":  [
+                                         {
+                                             "id":  "a-8",
+                                             "etiqueta":  "Art. 8",
+                                             "n":  8,
+                                             "texto":  "Son miembros de la IGLESIA PRESBITERIANA DE CHILE todas las personas inscritas en su Rol Nacional, de acuerdo con el reglamento.",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-9",
+                                             "etiqueta":  "Art. 9",
+                                             "n":  9,
+                                             "texto":  "Los miembros de la IGLESIA son comulgantes y no comulgantes. Son miembros comulgantes o en plena comunión quienes han sido bautizados y han hecho pública profesión de fe en Jesucristo y son recibidos como tales por una iglesia local. Son miembros no comulgantes los menores de edad que, estando bajo cuidado personal, tuición o guarda de un miembro comulgante, han sido bautizados en la infancia, que asisten y participan en una iglesia local y que no han hecho pública profesión de fe.",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-10",
+                                             "etiqueta":  "Art. 10",
+                                             "n":  10,
+                                             "texto":  "Los miembros comulgantes seran recibidos mediante alguna de las siguientes formas: a) Pública profesión de fe... b) Bautismo y pública profesión de fe. c) Carta de traslado... d) Restauración. e) Jurisdicción territorial, conforme al artículo 14.",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-14",
+                                             "etiqueta":  "Art. 14",
+                                             "n":  14,
+                                             "texto":  "Para la incorporación de miembros, podra operar la jurisdicción territorial de una iglesia local respecto de miembros comulgantes que provengan de otra iglesia local... y que hayan participado activamente, a lo menos, durante un año.",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-16",
+                                             "etiqueta":  "Art. 16",
+                                             "n":  16,
+                                             "texto":  "Los miembros no comulgantes seran recibidos por: a) Bautismo en la infancia. b) Traslado de los padres o adultos a los que les corresponda... su cuidado personal.",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-11",
+                                             "etiqueta":  "Art. 11",
+                                             "n":  11,
+                                             "texto":  "Son derechos de los miembros comulgantes: a) Ser elegidos para cargos en las organizaciónes internas... siempre que cuenten con, a lo menos, un año como miembros comulgantes, sean diezmeros efectivos y sistematicos, y tengan asistencia regular... b) Participar con voz y voto en las asambleas congregaciónales. c) Participar del sacramento de la Santa Cena, asi como de todos los auxilios espirituales... d) Presentar a sus hijos y menores sujetos a su cuidado... al sacramento del bautismo.",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-12",
+                                             "etiqueta":  "Art. 12",
+                                             "n":  12,
+                                             "texto":  "Son deberes de los miembros comulgantes: a) Vivir de acuerdo con las enseñanzas de las Sagradas Escrituras... b) Honrar y propagar el evangelio... c) Guardar un buen testimonio de vida... d) Contribuir a la iglesia con sus diezmos y ofrendas en forma continua, efectiva y sistematica. e) Obedecer a las autoridades de la IGLESIA... f) Participar activamente... g) Asistir regularmente a los cultos... h) Mantener la paz y la unidad... i) Someterse a la disciplina eclesiástica.",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-13",
+                                             "etiqueta":  "Art. 13",
+                                             "n":  13,
+                                             "texto":  "...podra solicitar una carta para ello. Esta carta detallara el comportamiento y fidelidad a Dios del miembro y su familia... y facultar el traslado.",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-15",
+                                             "etiqueta":  "Art. 15",
+                                             "n":  15,
+                                             "texto":  "El miembro comulgante perdera su condición... por: a) Exclusión... b) Renuncia... c) Ausencia injustificada durante un año... d) Carta de traslado a otra iglesia evangelica.",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-17",
+                                             "etiqueta":  "Art. 17",
+                                             "n":  17,
+                                             "texto":  "Los miembros no comulgantes perderan su condición... por: a) Carta de traslado de los padres... b) Alcanzar la mayoría de edad... c) Pública profesión de fe...",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-18",
+                                             "etiqueta":  "Art. 18",
+                                             "n":  18,
+                                             "texto":  "Cada iglesia local debe dar cuenta al Rol Nacional, en un plazo no superior a treinta días habiles...",
+                                             "fuente":  "curriculo"
+                                         }
+                                     ]
+                   },
+                   {
+                       "id":  "libro-2",
+                       "orden":  2,
+                       "num":  "Quinto",
+                       "titulo":  "De la Forma de Gobierno y los Organos de la Iglesia",
+                       "rango":  "",
+                       "estado":  "parcial",
+                       "articulos":  [
+                                         {
+                                             "id":  "a-19",
+                                             "etiqueta":  "Art. 19",
+                                             "n":  19,
+                                             "texto":  "La iglesia local es una comunidad constituida de miembros en plena comunión y de sus hijos... Tienen un gobierno propio, democrático representativo, que reside en el Consitorio...",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-21",
+                                             "etiqueta":  "Art. 21",
+                                             "n":  21,
+                                             "texto":  "...El derecho de la iglesia local para elegir a sus oficiales es irrevocable e irrenunciable...",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-22",
+                                             "etiqueta":  "Art. 22",
+                                             "n":  22,
+                                             "texto":  "...La asamblea congregaciónal es una reunión de caracter general... La asamblea congregaciónal se reunira, ordinariamente, una vez al año; y, extraordinariamente, cuantas veces el Consitorio lo estime necesario...",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-23",
+                                             "etiqueta":  "Art. 23",
+                                             "n":  23,
+                                             "texto":  "La asamblea congregaciónal se constituira y sesiónaran con los dos tercios de los miembros comulgantes que sean contribuyentes continuos, efectivos y sistematicos...",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-2427",
+                                             "etiqueta":  "Arts. 24-27",
+                                             "n":  "24-27",
+                                             "texto":  "[Texto de los artículos 24 al 27 — verificar en el Estatuto. El programa original los mencióna como tema (convocatoria de 30 días, caracter público, quorum y orden transparente) pero no reproduce su redacción.]",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-28",
+                                             "etiqueta":  "Art. 28",
+                                             "n":  28,
+                                             "texto":  "Los oficios eclesiasticos son la respuesta al llamado de Dios ejercido por personas cuya vocación... ha sido reconocida...",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-29",
+                                             "etiqueta":  "Art. 29",
+                                             "n":  29,
+                                             "texto":  "Los oficiales... son: 1.- Presbítero Docente, también llamado Ministro del Evangelio o Pastor. 2.- Presbítero Regente, también llamado Anciano Gobernante. 3.- Diácono... La ordenación... es perpetua y su ejercicio es temporal.",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-3133",
+                                             "etiqueta":  "Arts. 31, 33",
+                                             "n":  "31, 33",
+                                             "texto":  "Elección, ordenación (imposición de manos), instalación e igualdad en dignidad entre los oficios.",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-7374",
+                                             "etiqueta":  "Arts. 73-74",
+                                             "n":  "73-74",
+                                             "texto":  "Deberes del Presbítero Regente: gobierno, disciplina, visitación y enseñanza.",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-7677",
+                                             "etiqueta":  "Arts. 76-77",
+                                             "n":  "76-77",
+                                             "texto":  "Deberes del Diácono: servicio, cuidado de necesitados, acción social y administración de bienes.",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-34",
+                                             "etiqueta":  "Art. 34",
+                                             "n":  34,
+                                             "texto":  "El presbítero docente es llamado por Jesucristo a ejercer el ministerio pastoral... ministrar los sacramentos, impetrar la bendición divina... supervisar la liturgia...",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-38",
+                                             "etiqueta":  "Art. 38",
+                                             "n":  38,
+                                             "texto":  "El ministro podra ser electo o designado...",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-53545758",
+                                             "etiqueta":  "Arts. 53, 54, 57, 58",
+                                             "n":  "53, 54, 57, 58",
+                                             "texto":  "Proceso de Candidatura: miembro comulgante por 3 años, recomendación del Consitorio, salud, estudios. Licenciatura: exámenes de teología, exegesis, monografía y sermon ante el Presbiterio.",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-6869",
+                                             "etiqueta":  "Arts. 68, 69",
+                                             "n":  "68, 69",
+                                             "texto":  "Ordenación e incorporación al registro del Presbiterio.",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-94",
+                                             "etiqueta":  "Art. 94",
+                                             "n":  94,
+                                             "texto":  "El Consitorio es el consejo que ejerce jurisdicción sobre la iglesia local... integrado por el pastor o pastores de la iglesia y por sus presbíteros regentes en funciónes...",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-9598",
+                                             "etiqueta":  "Arts. 95, 98",
+                                             "n":  "95, 98",
+                                             "texto":  "Presidido por el pastor. Quorum de 2/3 de sus miembros en ejercicio.",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-100",
+                                             "etiqueta":  "Art. 100",
+                                             "n":  100,
+                                             "texto":  "Son atribuciónes y deberes del Consitorio: 1. Ejercer el gobierno... 2. Administrar economía... 4. Admitir, disciplinar y aceptar o rechazar traslados... 6. Guiar elecciónes de oficiales...",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-7880",
+                                             "etiqueta":  "Arts. 78-80",
+                                             "n":  "78-80",
+                                             "texto":  "La Junta Diaconal (conformada por diáconos y el pastor), bajo la autoridad directa del Consitorio.",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-85",
+                                             "etiqueta":  "Art. 85",
+                                             "n":  85,
+                                             "texto":  "La IGLESIA PRESBITERIANA DE CHILE es dirigida por los consejos... el Consitorio, el Presbiterio, el Sinodo y la Asamblea General...",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-101107",
+                                             "etiqueta":  "Arts. 101, 107",
+                                             "n":  "101, 107",
+                                             "texto":  "Presbiterio: Unión de 3 o más iglesias locales; ordena pastores, examina libros de consistorios y vela por el orden regional.",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-108114",
+                                             "etiqueta":  "Arts. 108, 114",
+                                             "n":  "108, 114",
+                                             "texto":  "Sinodo: Unión de 3 o más Presbiterios; organiza presbiterios y orienta la educación teológica.",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-115122",
+                                             "etiqueta":  "Arts. 115, 122",
+                                             "n":  "115, 122",
+                                             "texto":  "Asamblea General: Formada por representantes de todos los Presbiterios; dicta políticas nacionales, resguarda los estatutos y representa legalmente a la iglesia.",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-8593",
+                                             "etiqueta":  "Arts. 85-93",
+                                             "n":  "85-93",
+                                             "texto":  "[Principios generales conciliares y Comisiónes Ejecutivas — texto del Estatuto a verificar. El programa los senala como tema sin reproducir su redacción.]",
+                                             "fuente":  "curriculo"
+                                         }
+                                     ]
+                   },
+                   {
+                       "id":  "libro-3",
+                       "orden":  3,
+                       "num":  "Sexto",
+                       "titulo":  "De la Disciplina Eclesiástica",
+                       "rango":  "",
+                       "estado":  "parcial",
+                       "articulos":  [
+                                         {
+                                             "id":  "a-123",
+                                             "etiqueta":  "Art. 123",
+                                             "n":  123,
+                                             "texto":  "La disciplina es el ejercicio ordenado y oportuno de la autoridad conferida a la Iglesia por nuestro Senor Jesucristo... para su edificación...",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-124",
+                                             "etiqueta":  "Art. 124",
+                                             "n":  124,
+                                             "texto":  "El fin de la disciplina eclesiástica es defender la verdad y restablecer la gloria y autoridad de Cristo... mediante la remoción y supresión del escandalo... la conservación de la pureza de la doctrina... y el arrepentimiento del o los ofensores.",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-125126",
+                                             "etiqueta":  "Arts. 125, 126",
+                                             "n":  "125, 126",
+                                             "texto":  "Uso de prudencia, amor, discreción y garantía irrenunciable del derecho a la defensa sin comisiónes especiales.",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-127",
+                                             "etiqueta":  "Art. 127",
+                                             "n":  127,
+                                             "texto":  "Ofensa es todo aquello que es contrario a las Sagradas Escrituras y a la doctrina expresada en los simbolos de fe...",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-127130",
+                                             "etiqueta":  "Arts. 127-130",
+                                             "n":  "127-130",
+                                             "texto":  "[Faltas conciliares — texto del Estatuto a verificar. El programa senala este rango sin reproducir su redacción.]",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-131",
+                                             "etiqueta":  "Art. 131",
+                                             "n":  131,
+                                             "texto":  "Son tribunales los consejos establecidos en este estatuto cuando han sido convocados para fines judiciales...",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-133134",
+                                             "etiqueta":  "Arts. 133, 134",
+                                             "n":  "133, 134",
+                                             "texto":  "Elección de Comisiónes Judiciales (mínimo 5 jueces, equilibrio entre pastores y regentes).",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-144",
+                                             "etiqueta":  "Art. 144",
+                                             "n":  144,
+                                             "texto":  "Seran inhabiles como miembros de un tribunal... a) El conyuge y parientes... b) Quien tuviere interés personal... c) Quien hubiese intervenido en la instancia inferior... e) Quien hubiese manifestado su opinión...",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-155158",
+                                             "etiqueta":  "Arts. 155-158",
+                                             "n":  "155-158",
+                                             "texto":  "Competencia: Consitorio juzga a miembros y oficiales locales; Presbiterio a sus pastores y Consistorios; Sinodo y Asamblea General a sus directivos inferiores y apelaciónes.",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-161162",
+                                             "etiqueta":  "Arts. 161, 162",
+                                             "n":  "161, 162",
+                                             "texto":  "Ponderación estricta de Circunstancias Atenuantes (arrepentimiento, poca experiencia, confesión voluntaria) y Agravantes (reincidencia, arrogancia, contumacia).",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-164",
+                                             "etiqueta":  "Art. 164",
+                                             "n":  164,
+                                             "texto":  "Sanciónes a personas: a) Amonestación. b) Suspensión (privación temporal de derechos o del oficio hasta por 2 años). c) Destitución (termino definitivo del ejercicio del oficio). d) Exclusión (eliminación del Rol Nacional por contumacia).",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-169",
+                                             "etiqueta":  "Art. 169",
+                                             "n":  169,
+                                             "texto":  "Sanciónes a consejos: Represión, Intervención y Disolución.",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-164174",
+                                             "etiqueta":  "Arts. 164-174",
+                                             "n":  "164-174",
+                                             "texto":  "[Definición completa de amonestación, suspensión, destitución, exclusión, represión, intervención y disolución — el programa enumera las sanciónes sin reproducir su redacción literal. Verificar en el Estatuto.]",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-191",
+                                             "etiqueta":  "Art. 191",
+                                             "n":  191,
+                                             "texto":  "Inicio del proceso por Queja (acusación del ofendido), Denuncia (de un tercero/consejo) o Vindicación (solicitud de investigación personal ante rumores falsos).",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-213225",
+                                             "etiqueta":  "Arts. 213-225",
+                                             "n":  "213-225",
+                                             "texto":  "Procedimiento Ordinario — Audiencia Preparatoria: lectura de acusación, descargos escritos (5 días antes), excepciónes, llamado obligatorio a conciliación y fijación de prueba. Audiencia de Juicio: rendición de prueba (documental, confesional, testimonial bajo juramento solemne a Dios y alegatos). Apreciación según la sana crítica.",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-226",
+                                             "etiqueta":  "Art. 226",
+                                             "n":  226,
+                                             "texto":  "Procedimiento Extraordinario: Aplica en caso de confesión explicita, contumacia o renuncia a defenderse.",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-230",
+                                             "etiqueta":  "Art. 230",
+                                             "n":  230,
+                                             "texto":  "Reposición: Recurso ante el mismo tribunal en plazo de 5 días para resoluciónes no definitivas.",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-231232",
+                                             "etiqueta":  "Arts. 231, 232",
+                                             "n":  "231, 232",
+                                             "texto":  "Apelación: Recurso contra sentencia definitiva ante el consejo superior inmediato en plazo de 10 días.",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-237",
+                                             "etiqueta":  "Art. 237",
+                                             "n":  237,
+                                             "texto":  "Revisión: Recurso ante Sinodo o Asamblea General en plazo de 30 días habiles.",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-241",
+                                             "etiqueta":  "Art. 241",
+                                             "n":  241,
+                                             "texto":  "Reivindicación: Restablecimiento público de la honra de un exculpado con sentencia absolutoria.",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-243246",
+                                             "etiqueta":  "Arts. 243-246",
+                                             "n":  "243-246",
+                                             "texto":  "Restauración: Restitución del sanciónado arrepentido. En pastores es gradual: primero Santa Cena, luego licencia para predicar y finalmente reintegro.",
+                                             "fuente":  "curriculo"
+                                         },
+                                         {
+                                             "id":  "a-247",
+                                             "etiqueta":  "Art. 247",
+                                             "n":  247,
+                                             "texto":  "Prescripción: Plazo de 1 año desde el conocimiento de la falta o máximo 2 años desde su comisión para iniciar proceso.",
+                                             "fuente":  "curriculo"
+                                         }
+                                     ]
+                   }
+               ]
+};
+var CLAVE_NOTAS = 'estatuto-notas-v1';
+var CLAVE_PROG = 'estatuto-progreso-v1';
+
+var estado = { vista:'portada', libro:0, art:0 };
+var notas = JSON.parse(localStorage.getItem(CLAVE_NOTAS) || '{}');
+var prog  = JSON.parse(localStorage.getItem(CLAVE_PROG)  || '{}');
+
+/* ---------- indice plano de articles ---------- */
+var PLANO = [];
+DATOS.libros.forEach(function(l, iL){
+  l.articulos.forEach(function(a, iA){ PLANO.push({ iL:iL, iA:iA, ref:a.etiqueta, libro:l, art:a }); });
+});
+
+function esc(s){
+  return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function guardar(){ try{ localStorage.setItem(CLAVE_NOTAS, JSON.stringify(notas)); }catch(e){} }
+function guardarProg(){ try{ localStorage.setItem(CLAVE_PROG, JSON.stringify(prog)); }catch(e){} }
+
+function marca(txt, q){
+  var t = esc(txt);
+  if(!q) return t;
+  var partes = q.trim().split(/\s+/).filter(function(x){return x.length>1});
+  partes.forEach(function(p){
+    var re = new RegExp('(' + p.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')','gi');
+    t = t.replace(re, '<span class="marca">$1</span>');
+  });
+  return t;
+}
+
+/* ---------- menu lateral ---------- */
+function pintarMenu(){
+  var h = '';
+  DATOS.libros.forEach(function(l, i){
+    h += '<div class="lat-libro">LIBRO ' + esc(l.num) + '</div>';
+    l.articulos.forEach(function(a, j){
+      h += '<button class="lat-art" data-l="' + i + '" data-a="' + j + '">' + esc(a.etiqueta) + '</button>';
+    });
+  });
+  document.getElementById('menu').innerHTML = h;
+}
+
+/* ---------- vistas ---------- */
+function verPortada(){
+  estado.vista = 'portada';
+  var d = DATOS.meta;
+  var art = PLANO.length;
+  document.getElementById('princ').innerHTML =
+  '<section class="portada">' +
+    '<div class="escudo">Iglesia Presbiteriana Divino Salvador</div>' +
+    '<h1>' + esc(d.titulo) + '</h1>' +
+    '<div class="regla"></div>' +
+    '<h2>' + esc(d.subtitulo) + '</h2>' +
+    '<div class="den"><b>' + esc(d.iglesia) + '</b>' +
+      '<br>' + esc(d.edicion) + '</div>' +
+    '<div class="aviso">' + esc(d.aviso) +
+      '<br><br>Esta version incluye <b>' + art + '</b> bloques de articulos con texto disponible.' +
+    '</div>' +
+    '<button class="empezar" data-ir="indice">Comenzar la lectura</button>' +
+  '</section>';
+  document.getElementById('bLibro').textContent = 'Portada';
+  marcar();
+}
+
+function verIndice(){
+  estado.vista = 'indice';
+  var h = '<section class="indice"><h1>Indice general</h1>' +
+    '<div class="intro">' + PLANO.length + ' bloques de articulos. Haz clic en cualquiera para leerlo.</div>';
+  DATOS.libros.forEach(function(l, i){
+    h += '<div class="lib"><h2>Libro ' + esc(l.num) + ' &mdash; ' + esc(l.titulo) + '</h2>' +
+         '<div class="sub">' + l.articulos.length + ' bloques disponibles</div>';
+    l.articulos.forEach(function(a, j){
+      h += '<div class="fila" data-l="' + i + '" data-a="' + j + '">' +
+           '<span class="et">' + esc(a.etiqueta) + '</span>' +
+           '<span class="tx">' + esc((a.texto||'').slice(0,150)) + (a.texto.length>150?'&hellip;':'') + '</span></div>';
+    });
+    h += '</div>';
+  });
+  h += '</section>';
+  document.getElementById('princ').innerHTML = h;
+  document.getElementById('bLibro').textContent = 'Indice';
+  marcar();
+}
+
+function verArticulo(iL, iA){
+  var l = DATOS.libros[iL], a = l.articulos[iA];
+  var k = iL + '-' + iA;
+  var idx = PLANO.findIndex(function(p){ return p.iL===iL && p.iA===iA; });
+  var falta = !a.texto || /verificar en el Estatuto/i.test(a.texto);
+  var prev = idx > 0 ? PLANO[idx-1] : null;
+  var next = idx < PLANO.length-1 ? PLANO[idx+1] : null;
+
+  // actualizar el estado antes de llamar a marcar(), si no el lateral nunca queda resaltado
+  estado.libro = iL;
+  estado.art = iA;
+  estado.vista = 'articulo';
+  prog.ultimo = k;
+  guardarProg();
+
+  var h = '<section class="envoltura">';
+  h += '<div class="migas">Libro ' + esc(l.num) + ' &middot; ' + esc(l.titulo) + '</div>';
+  h += '<h1>' + esc(l.titulo) + '</h1>';
+  h += '<div class="rango">' + esc(a.etiqueta) + '</div>';
+  h += '<div class="regla2"></div>';
+
+  if (falta){
+    h += '<div class="aviso-texto"><b>Texto pendiente.</b> Este bloque no tiene todavia el texto del articulo. ' +
+         'Se incorporara cuando llegue el PDF digital oficial con capa de texto.</div>';
+    h += '<div class="bloque falta"><div class="num">' + esc(a.etiqueta) + '</div>' +
+         '<div class="cuerpo">' + esc(a.texto||'') + '</div></div>';
+  } else {
+    h += '<div class="bloque"><div class="num">' + esc(a.etiqueta) + '</div>' +
+         '<div class="cuerpo">' + marca(a.texto, '') + '</div></div>';
+  }
+
+  h += '<div class="notas"><label>Notas de trabajo</label>' +
+       '<textarea id="nota" placeholder="Escribe aqui tus notas sobre este articulo...">' + esc(notas[k]||'') + '</textarea>' +
+       '<span class="estado" id="estadoNota"></span></div>';
+
+  h += '<div class="nav-art">';
+  h += prev ? '<button data-ir="art" data-l="'+prev.iL+'" data-a="'+prev.iA+'"><span class="flecha">&larr; Anterior</span>' + esc(prev.ref) + '</button>'
+            : '<button disabled><span class="flecha">&larr; Anterior</span>&mdash;</button>';
+  h += next ? '<button data-ir="art" data-l="'+next.iL+'" data-a="'+next.iA+'"><span class="flecha">Siguiente &rarr;</span>' + esc(next.ref) + '</button>'
+            : '<button disabled><span class="flecha">Siguiente &rarr;</span>&mdash;</button>';
+  h += '</div></section>';
+
+  document.getElementById('princ').innerHTML = h;
+  document.getElementById('bLibro').textContent = a.etiqueta;
+  marcar();
+
+  var ta = document.getElementById('nota');
+  var et = document.getElementById('estadoNota');
+  var tm;
+  ta.addEventListener('input', function(){
+    clearTimeout(tm);
+    et.textContent = 'Guardando...';
+    tm = setTimeout(function(){
+      notas[k] = ta.value;
+      guardar();
+      et.textContent = 'Guardado en este computador';
+    }, 450);
+  });
+  if (notas[k]) et.textContent = 'Guardado en este computador';
+  window.scrollTo(0,0);
+}
+
+function verResultados(q){
+  estado.vista = 'resultados';
+  var ql = q.toLowerCase();
+  var hits = PLANO.filter(function(p){
+    return (p.art.etiqueta+' '+p.art.texto).toLowerCase().indexOf(ql) >= 0;
+  });
+  var h = '<section class="resultados"><h1>Resultados</h1>' +
+    '<div class="conteo">' + hits.length + ' resultado(s) para "' + esc(q) + '"</div>';
+  if (!hits.length) h += '<div class="res"><div class="tx">No se encontro nada.</div></div>';
+  hits.forEach(function(p){
+    var t = p.art.texto || '';
+    var pos = t.toLowerCase().indexOf(ql);
+    var frag = pos >= 0 ? t.slice(Math.max(0,pos-70), pos+q.length+90) : t.slice(0,150);
+    h += '<div class="res" data-ir="art" data-l="'+p.iL+'" data-a="'+p.iA+'">' +
+         '<div class="et">Libro ' + esc(p.libro.num) + ' &middot; ' + esc(p.ref) + '</div>' +
+         '<div class="tx">&hellip;' + marca(frag, q) + '&hellip;</div></div>';
+  });
+  h += '</section>';
+  document.getElementById('princ').innerHTML = h;
+  document.getElementById('bLibro').textContent = 'Busqueda';
+  marcar();
+}
+
+/* ---------- navegacion ---------- */
+function marcar(){
+  document.querySelectorAll('.lat-art, .lat-item').forEach(function(b){
+    b.classList.toggle('on',
+      (b.dataset.l!=null && b.dataset.l==estado.libro && b.dataset.a==estado.art && estado.vista!=='portada' && estado.vista!=='indice')
+      || (b.dataset.ir==='portada' && estado.vista==='portada')
+      || (b.dataset.ir==='indice' && estado.vista==='indice'));
+  });
+}
+function cerrarLateral(){
+  var lat = document.getElementById('lat');
+  if (lat.classList.contains('abierta')) lat.classList.remove('abierta');
+}
+function ir(destino){
+  cerrarLateral();
+  if (destino === 'portada') verPortada();
+  else if (destino === 'indice') verIndice();
+  else if (destino === 'art') verArticulo(estado.libro, estado.art);
+}
+
+document.addEventListener('click', function(e){
+  var t = e.target.closest('[data-ir],[data-l]');
+  if (!t) return;
+  // una fila de indice o un articulo del menu llevan data-l + data-a: abren el articulo
+  if (t.dataset.l !== undefined && t.dataset.a !== undefined){
+    estado.libro = +t.dataset.l;
+    estado.art   = +t.dataset.a;
+    verArticulo(estado.libro, estado.art);
+    cerrarLateral();
+    return;
+  }
+  if (t.dataset.ir === 'art') verArticulo(estado.libro, estado.art);
+  else ir(t.dataset.ir);
+});
+
+document.getElementById('bIndice').onclick = function(){ ir('indice'); };
+document.getElementById('bMenu').onclick  = function(){ document.getElementById('lat').classList.toggle('abierta'); };
+
+/* tamano de letra */
+var tam = 100;
+function fijarTam(){ document.documentElement.style.setProperty('--s', (tam/100)); }
+document.getElementById('bMas').onclick  = function(){ tam = Math.min(150, tam+10); fijarTam(); };
+document.getElementById('bMenos').onclick = function(){ tam = Math.max(80,  tam-10); fijarTam(); };
+
+/* busqueda */
+var qt;
+document.getElementById('q').addEventListener('input', function(e){
+  var v = e.target.value.trim();
+  clearTimeout(qt);
+  if (!v){ if (estado.vista==='resultados') ir('indice'); return; }
+  qt = setTimeout(function(){ verResultados(v); }, 260);
+});
+
+/* atajos: j/k o flechas, / buscar, i indice */
+document.addEventListener('keydown', function(e){
+  if (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT') return;
+  if (e.key === '/'){ e.preventDefault(); document.getElementById('q').focus(); return; }
+  if (e.key === 'i' || e.key === 'I'){ ir('indice'); return; }
+  if (e.key === 'Escape'){ document.getElementById('q').value=''; if (estado.vista==='resultados') ir('indice'); return; }
+  if (e.key === 'j' || e.key === 'ArrowRight'){ var n = PLANO.findIndex(function(p){return p.iL===estado.libro&&p.iA===estado.art;});
+    if (estado.vista!=='art'){ if (PLANO.length){ estado.libro=PLANO[0].iL; estado.art=PLANO[0].iA; verArticulo(estado.libro,estado.art); } return; }
+    if (n<PLANO.length-1){ var x=PLANO[n+1]; verArticulo(x.iL,x.iA); } return; }
+  if (e.key === 'k' || e.key === 'ArrowLeft'){ var m = PLANO.findIndex(function(p){return p.iL===estado.libro&&p.iA===estado.art;});
+    if (estado.vista!=='art') return; if (m>0){ var y=PLANO[m-1]; verArticulo(y.iL,y.iA); } return; }
+});
+
+pintarMenu();
+if (prog.ultimo){
+  var pr = String(prog.ultimo).split('-');
+  if (pr.length===2){ estado.libro=+pr[0]; estado.art=+pr[1]; }
+}
+verPortada();
+</script>
+</body>
+</html>
