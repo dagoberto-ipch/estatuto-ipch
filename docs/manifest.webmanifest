@@ -1,0 +1,41 @@
+{
+  "name": "Estatuto · Iglesia Presbiteriana de Chile",
+  "short_name": "Estatuto IPCh",
+  "description": "Estatuto de la Iglesia Presbiteriana de Chile en version digital, con los 9 libros y sus 295 articulos.",
+  "lang": "es",
+  "dir": "ltr",
+  "id": "estatuto-ipch",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0D4D72",
+  "theme_color": "#0D4D72",
+  "categories": ["education", "books"],
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "./icons/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

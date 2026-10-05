@@ -3,6 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0D4D72">
+<meta name="description" content="Estatuto de la Iglesia Presbiteriana de Chile en version digital: 9 libros y 295 articulos.">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+<link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Estatuto IPCh">
+<link rel="mask-icon" href="./icons/icon-192.png" color="#0D4D72">
 <title>Estatuto · Iglesia Presbiteriana de Chile</title>
 <style>
   :root{
@@ -190,7 +200,7 @@
       <div class="indice-titulo">&Iacute;ndice</div>
       <nav id="indice"></nav>
       <div class="aside-foot">
-        Copia digital de trabajo. Texto reconocido del PDF original mediante OCR, por lo que puede contener errores de transcripci&oacute;n. El texto oficial y vigente est&aacute; en <a href="https://ipch.cl/documentos.php" target="_blank" rel="noopener">ipch.cl</a>.
+        Texto reconocido del PDF original mediante OCR. Puede contener errores de transcripci&oacute;n.
       </div>
     </aside>
 
@@ -204,7 +214,7 @@
       <div id="contenido"></div>
       <div class="pie">
         Estatuto de la Iglesia Presbiteriana de Chile &middot; De Derecho P&uacute;blico<br>
-        Copia digital de un documento en revisi&oacute;n &mdash; el texto oficial est&aacute; en ipch.cl
+        Documento en revisi&oacute;n &mdash; uso interno
       </div>
     </main>
   </div>
@@ -373,9 +383,10 @@ const SECCIONES = [
 ];
 
 /* PDF original, para abrir la pagina correspondiente */
-const PDF = '';
+const PDF = 'file:///C:/Users/pasto/Downloads/Estatuto%20IPCH-DP.pdf';
 /* id -> numero de pagina del PDF original */
-const PAGINAS = {};
+const PAGINAS = {"libro-1":4,"libro-2":5,"libro-3":6,"libro-4":7,"libro-5":10,"libro-6":35,
+                 "libro-7":60,"libro-8":66,"libro-9":70,"disp":70,"notas":75,"acta":76};
 
 /* el(): con texto plano usa textContent (seguro); con _html usa innerHTML */
 const el = (t,c,h)=>{
@@ -517,6 +528,17 @@ addEventListener('scroll',()=>{
   const h=document.documentElement.scrollHeight-innerHeight;
   barra.style.width=(h>0?(scrollY/h)*100:0)+'%';
 },{passive:true});
+</script>
+
+<!-- service worker: habilita la instalacion como app y el uso sin conexion -->
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('./sw.js').catch(function (e) {
+      console.warn('Service worker no registrado:', e);
+    });
+  });
+}
 </script>
 </body>
 </html>
